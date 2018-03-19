@@ -15,7 +15,7 @@ def user_exists(db_cur, email):
 
 def get_user(db_cur, email):
     """GET user from database"""
-    db_cur.execute("SELECT * FROM users WHERE email=%s;", (email,))
+    db_cur.execute("SELECT * FROM users WHERE email=%s;", (email))
     return db_cur.fetchone()
 
 class RegisterHandler(BaseHandler):
