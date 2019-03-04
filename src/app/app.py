@@ -6,6 +6,7 @@ import tornado.web
 from tornado.options import options
 from settings import settings
 from urls import URL_PATTERNS
+import os
 
 
 class TwitterApplication(tornado.web.Application):
@@ -25,9 +26,11 @@ def main():
     app = TwitterApplication(debug=True)
     tornado.locale.load_translations(options.locale_dir)
     tornado.locale.set_default_locale(options.default_locale)
+    # http_server = tornado.httpserver.HTTPServer(
+    #     app, ssl_options=options.ssl_options, max_body_size=MAX_STREAMED_SIZE)
     http_server = tornado.httpserver.HTTPServer(
-        app, ssl_options=options.ssl_options, max_body_size=MAX_STREAMED_SIZE)
-    http_server.listen(options.port)
+        app, max_body_size=MAX_STREAMED_SIZE)
+    http_server.listen(os.environ.get("PORT", options.port))
     tornado.ioloop.IOLoop.instance().start()
 
 
